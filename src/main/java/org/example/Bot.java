@@ -9,20 +9,20 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import java.util.HashMap;
 
 public class Bot extends TelegramLongPollingBot {
-
+    HashMap<String, UserInfo> users;
 
     Bot() {
-
+        users = new HashMap<>();
     }
 
     @Override
     public String getBotUsername() {
-        return "DekstopTypeBot";
+        return "DesktopTypeBot";
     }
 
     @Override
     public String getBotToken() {
-        return "7582021290:AAG77MD0Mee6NQco8b2AnokrcihPXRudz9w";
+        return "7702213647:AAGmOs346UreDSTGgsQaqXmcPdhhrBYasP8";
     }
 
 
@@ -34,7 +34,29 @@ public class Bot extends TelegramLongPollingBot {
         String chatId = msg.getChatId().toString();
         String userName = user.getUserName();
         String message = msg.getText();
-        
+
+        if(!users.containsKey(userName) || message.equals("/start")) {
+            users.put(userName, new UserInfo());
+            String botMsg = "*Привет!*\n" +
+                    "Я телеграм бот клавиатурного тренажера *DesktopType*⌨\uFE0F\n" +
+                    "Чтобы узнать что я умею напиши /info";
+            sendFormattedMessage(chatId,botMsg);
+            return;
+        }
+
+        switch (message){
+            case "/info":
+                break;
+
+            case "/test":
+                System.out.println("tst");
+                break;
+
+            default:
+                sendMessage(chatId,"Извини, я тебя не понял!\uD83D\uDE1E");
+        }
+
+        System.out.println(userName + " написал: " + message + "\nАйди чата: " + chatId);
     }
 
     public void sendMessage(String chatId, String msg){
