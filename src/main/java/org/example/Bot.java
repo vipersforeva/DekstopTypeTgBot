@@ -39,9 +39,10 @@ public class Bot extends TelegramLongPollingBot {
 
         if(!users.containsKey(userName) || message.equals("/start")) {
             users.put(userName, new UserInfo());
-            String botMsg = "*Привет!*\n" +
+            String botMsg = "*Привет!*\uD83D\uDC4B\n" +
                     "Я телеграм бот клавиатурного тренажера *DesktopType*⌨\uFE0F\n" +
-                    "Хочешь узнать что я умею? Напиши /info";
+                    "Хочешь узнать что я умею?" +
+                    "*Напиши* /info";
             sendFormattedMessage(chatId,botMsg);
             return;
         }
@@ -50,6 +51,13 @@ public class Bot extends TelegramLongPollingBot {
             case 10:
                 FileLogic.saveToFile(message + " \nChatId: " + chatId + " UserName: " + userName);
                 sendFormattedMessage(chatId,"*Спасибо!*\nВаше обращение отправлено на рассмотрение❤\uFE0F");
+                users.get(userName).setQuest(0);
+                return;
+
+            case 5:
+                String newText = message;
+
+                users.get(userName).setQuest(0);
                 return;
         }
 
@@ -57,16 +65,23 @@ public class Bot extends TelegramLongPollingBot {
             case "/info":
                 String botMsg = "_Пока что ничего(_";
                 sendFormattedMessage(chatId,botMsg);
-                break;
+                return;
 
             case "/ask":            //question Code 10
                 sendMessage(chatId,"Расскажите о вашем предложении");
                 users.get(userName).setQuest(10);
-                break;
+                return;
 
-            case "/test":
-                System.out.println("tst");
-                break;
+            case "/newText":        //question Code 5
+                if(userName.equals("surfshtt")){
+                    sendMessage(chatId,"Привет адм! Напиши текст:");
+                    users.get(userName).setQuest(5);
+                }
+                return;
+
+            case "/stat":
+                System.out.println("Ваша стата");
+                return;
 
             default:
                 sendMessage(chatId,"Извини, я тебя не понял!\uD83D\uDE1E");
