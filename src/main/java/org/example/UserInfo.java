@@ -12,4 +12,8 @@ public class UserInfo {
         numForConv = num;
     }
 
+    public int getQuest(){
+        return numForConv;
+    }
+
 }
