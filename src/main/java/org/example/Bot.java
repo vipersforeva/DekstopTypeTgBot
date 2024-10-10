@@ -1,5 +1,8 @@
 package org.example;
 
+import org.example.files.AskLogic;
+import org.example.user_data.AllData;
+import org.example.user_data.ChatData;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -9,7 +12,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import java.util.HashMap;
 
 public class Bot extends TelegramLongPollingBot {
-    HashMap<String, UserInfo> users;
+    HashMap<String, ChatData> users;
 
     Bot() {
         users = new HashMap<>();
@@ -38,10 +41,10 @@ public class Bot extends TelegramLongPollingBot {
         System.out.println(userName + " написал: " + message + "\nАйди чата: " + chatId);
 
         if(!users.containsKey(userName) || message.equals("/start")) {
-            users.put(userName, new UserInfo());
+            users.put(userName, new ChatData());
             String botMsg = "*Привет!*\uD83D\uDC4B\n" +
                     "Я телеграм бот клавиатурного тренажера *DesktopType*⌨\uFE0F\n" +
-                    "Хочешь узнать что я умею?" +
+                    "Хочешь узнать что я умею? " +
                     "*Напиши* /info";
             sendFormattedMessage(chatId,botMsg);
             return;
@@ -49,7 +52,7 @@ public class Bot extends TelegramLongPollingBot {
 
         switch (users.get(userName).getQuest()){
             case 10:
-                FileLogic.saveToFile(message + " \nChatId: " + chatId + " UserName: " + userName);
+                AskLogic.saveToFile(message + " \nChatId: " + chatId + " UserName: " + userName);
                 sendFormattedMessage(chatId,"*Спасибо!*\nВаше обращение отправлено на рассмотрение❤\uFE0F");
                 users.get(userName).setQuest(0);
                 return;
@@ -57,8 +60,24 @@ public class Bot extends TelegramLongPollingBot {
             case 5:
                 String newText = message;
 
+                sendMessage(chatId,"Текст успешно добавлен! " + newText);
                 users.get(userName).setQuest(0);
                 return;
+        }
+
+        if(message.contains("/stat")){
+            try {
+                String userNameFS = message.split(" ")[1];
+                int[] userRecords = AllData.getInfo(userNameFS);
+
+                sendMessage(chatId,"\uD83C\uDFC6Рекорды пользователя:\n" +
+                        "⌛\uFE0F30 сек " + userRecords[0] + " симв/сек\n" +
+                        "⌛\uFE0F60 сек " + userRecords[1] + " симв/сек\n");
+            }
+            catch(Exception e){
+                sendMessage(chatId, "\uD83D\uDD0DПользователь не найден! " + e);
+            }
+            return;
         }
 
         switch (message){
@@ -79,12 +98,8 @@ public class Bot extends TelegramLongPollingBot {
                 }
                 return;
 
-            case "/stat":
-                System.out.println("Ваша стата");
-                return;
-
             default:
-                sendMessage(chatId,"Извини, я тебя не понял!\uD83D\uDE1E");
+                sendMessage(chatId,"Извинись, я тебя не понял!\uD83D\uDE1E");
         }
     }
 
