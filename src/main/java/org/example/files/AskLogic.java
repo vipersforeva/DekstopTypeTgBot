@@ -1,9 +1,9 @@
-package org.example;
+package org.example.files;
 
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class FileLogic {
+public class AskLogic {
     public static void saveToFile(String str) {
         try {
             FileWriter writer = new FileWriter("asks.txt", true);

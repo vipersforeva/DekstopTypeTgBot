@@ -1,10 +1,11 @@
-package org.example;
+package org.example.user_data;
 
-public class UserInfo {
+public class ChatData {
 
     private int numForConv;
+    private int[] records;
 
-    public UserInfo() {
+    public ChatData() {
         numForConv = 0;
     }
 
@@ -15,5 +16,4 @@ public class UserInfo {
     public int getQuest(){
         return numForConv;
     }
-
 }
