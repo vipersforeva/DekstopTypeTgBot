@@ -25,10 +25,6 @@ public class AllData {
                     tmp[2] = Integer.parseInt(groupOfUsers[4]);
 
                     allData.put(groupOfUsers[0], tmp);
-                    System.out.println(allData.values());
-
-                    allData.put(groupOfUsers[0], tmp);
-                    System.out.println(allData.values());
                 } else {
                     System.out.println("Ошибка: недостаточно данных в строке: " + line);
                 }
@@ -46,4 +42,66 @@ public class AllData {
     public static int[] getInfo(String userName){
         return allData.get(userName);
     }
+
+    public static HashMap<String, Integer> getTops(int i){
+
+        HashMap<String, Integer> topGuys = new HashMap<>();
+        HashMap<String,int[]> allDataCopy = new HashMap<>(allData);
+
+        String tmpUserName;
+        for(int j = 0; j < 5; j++){
+            tmpUserName = findMax(allDataCopy,i);
+            allDataCopy.remove(tmpUserName);
+            topGuys.put(tmpUserName,allData.get(tmpUserName)[i]);
+        }
+
+//            String[] alreadyExist = {"", "", "", "", ""};
+//            for (int j = 0; j < 5; j++) {
+//                alreadyExist[j] = findMax(alreadyExist, i);
+//            }
+
+//            for (int j = 0; j < 5; j++) {
+//                topGuys.put(alreadyExist[j], allData.get(alreadyExist[j])[i-1]);
+//            }
+            return topGuys;
+    }
+
+    private static String findMax(HashMap<String,int[]> allDataCopy, int i){
+        String userName = "";
+        int max = Integer.MIN_VALUE;
+
+        for(String nm : allDataCopy.keySet()){
+            if(allDataCopy.get(nm)[i] > max){
+                max = allDataCopy.get(nm)[i];
+                userName = nm;
+            }
+        }
+
+        return userName;
+    }
+
+//    private static String findMax(String[] alreadyExist, int i){
+//        int max = Integer.MIN_VALUE;
+//        String userNameOB = null;
+//
+//        for(String userName : allData.keySet()){
+//            if(allData.get(userName)[i-1] > max) {
+//                if(isContains(alreadyExist,userName))
+//                    break;
+//
+//                max = allData.get(userName)[i-1];
+//                userNameOB = userName;
+//            }
+//        }
+//        return userNameOB;
+//    }
+//
+//    private static boolean isContains(String[] alreadyExist, String userName){
+//        for(int j = 0; j < 5; j++){
+//            if (alreadyExist[j].equals(userName)) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
 }
