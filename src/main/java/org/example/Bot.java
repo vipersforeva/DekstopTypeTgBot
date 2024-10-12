@@ -11,6 +11,8 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -45,9 +47,8 @@ public class Bot extends TelegramLongPollingBot {
         String chatId = msg.getChatId().toString();
         String userName = user.getUserName();
         String message = msg.getText();
-
-        System.out.println(userName + " написал: " + message + "\nАйди чата: " + chatId);
-
+        
+        log(user.getFirstName(), user.getLastName(), chatId, message);
 
         if(!users.containsKey(userName) || message.equals("/start")) {
             users.put(userName, new ChatData());
@@ -217,5 +218,13 @@ public class Bot extends TelegramLongPollingBot {
         }catch (TelegramApiException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private void log(String first_name, String last_name, String user_id, String txt) {
+        System.out.println("\n--------------------------------------------------");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+        System.out.println(dateFormat.format(date));
+        System.out.println("Message from " + first_name + " " + last_name + ". (id = " + user_id + ") \nText - " + txt);
     }
 }
