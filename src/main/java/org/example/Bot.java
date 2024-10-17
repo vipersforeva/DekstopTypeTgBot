@@ -38,8 +38,6 @@ public class Bot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         countOfMessages++;
-        if(update.getMessage().getChatId().toString().equals("814292320"))
-            return;
 
         Message msg = update.getMessage();
         User user = msg.getFrom();
@@ -117,8 +115,6 @@ public class Bot extends TelegramLongPollingBot {
                         count++;
                     }
 
-                    //System.out.println(tops.values());
-
                     sendMessage(chatId, finalMessage.toString());
                     users.get(userName).setQuest(0);
                     return;
@@ -135,18 +131,24 @@ public class Bot extends TelegramLongPollingBot {
                 int[] userRecords = AllData.getInfo(userNameFS);
 
                 sendMessage(chatId,"\uD83C\uDFC6Рекорды пользователя:\n" +
-                        "⌛\uFE0F30 сек " + userRecords[0] + " симв/сек\n" +
-                        "⌛\uFE0F60 сек " + userRecords[1] + " симв/сек\n");
+                        "⌛\uFE0F15 сек " + userRecords[0] + " симв/сек\n" +
+                        "⌛\uFE0F30 сек " + userRecords[1] + " симв/сек\n" +
+                        "⌛\uFE0F60 сек " + userRecords[1] + " симв/сек");
             }
             catch(Exception e){
-                sendMessage(chatId, "\uD83D\uDD0DПользователь не найден! " + e);
+                sendMessage(chatId, "\uD83D\uDD0DПользователь не найден! ");
             }
             return;
         }
 
         switch (message){
             case "/info":
-                String botMsg = "_Пока что ничего(_";
+                String botMsg = "\uD83D\uDCDA *Информация:*\n" +
+                        "*/top* - Топ игроков \uD83C\uDFC6 \n" +
+                        "*/stat username* - Статистика по нику \uD83D\uDD0D \n" +
+                        "*/newText* - Добавить новый текст \uD83D\uDCC4"+
+                        "\n" +
+                        "/ask - Что то не работает?/Есть предложение? \uD83D\uDCBC";
                 sendFormattedMessage(chatId,botMsg);
                 return;
 
@@ -157,16 +159,19 @@ public class Bot extends TelegramLongPollingBot {
 
             case "/newText":        //question Code 5
                 if(userName.equals("surfshtt")){
-                    sendMessage(chatId,"Привет адм! Напиши текст:");
+                    sendMessage(chatId,"Привет!\uD83D\uDC4B \nНапиши текст:");
                     users.get(userName).setQuest(5);
+                }
+                else{
+                    sendMessage(chatId,"❌ Нет доступа!");
                 }
                 return;
 
             case "/top":            //question Code 3
                 sendFormattedMessage(chatId,"*Выберите:*\n" +
-                        "1. 30-ти секундный режим\n" +
-                        "2. 60-ти секундный режим\n" +
-                        "3. безвременный режим");
+                        "1. 15-ти секундный режим\n" +
+                        "2. 30-ти секундный режим\n" +
+                        "3. 60-ти секундный режим");
                 users.get(userName).setQuest(3);
                 return;
 
@@ -175,7 +180,7 @@ public class Bot extends TelegramLongPollingBot {
                 return;
 
             default:
-                sendMessage(chatId,"Извинись, я тебя не понял!\uD83D\uDE1E");
+                sendMessage(chatId,"Извини, я тебя не понял!\uD83D\uDE1E");
         }
     }
 

@@ -55,15 +55,7 @@ public class AllData {
             topGuys.put(tmpUserName,allData.get(tmpUserName)[i]);
         }
 
-//            String[] alreadyExist = {"", "", "", "", ""};
-//            for (int j = 0; j < 5; j++) {
-//                alreadyExist[j] = findMax(alreadyExist, i);
-//            }
-
-//            for (int j = 0; j < 5; j++) {
-//                topGuys.put(alreadyExist[j], allData.get(alreadyExist[j])[i-1]);
-//            }
-            return topGuys;
+        return topGuys;
     }
 
     private static String findMax(HashMap<String,int[]> allDataCopy, int i){
