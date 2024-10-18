@@ -95,7 +95,7 @@ public class Bot extends TelegramLongPollingBot {
                     }
 
 
-                    sendFormattedMessage(chatId, "\uD83C\uDFC6*Топы*");
+                    sendFormattedMessage(chatId, "\uD83C\uDFC6* Топы*");
 
 
                     LinkedHashMap<String, Integer> sortedTops = getStringIntegerLinkedHashMap(tops);
@@ -130,8 +130,8 @@ public class Bot extends TelegramLongPollingBot {
                 String userNameFS = message.split(" ")[1];
                 int[] userRecords = AllData.getInfo(userNameFS);
 
-                sendMessage(chatId,"\uD83C\uDFC6Рекорды пользователя:\n" +
-                        "⌛\uFE0F15 сек " + userRecords[0] + " симв/сек\n" +
+                String botMsg = "\uD83C\uDFC6 Рекорды пользователя:\n";
+                sendMessage(chatId,botMsg +"⌛\uFE0F15 сек " + userRecords[0] + " симв/сек\n" +
                         "⌛\uFE0F30 сек " + userRecords[1] + " симв/сек\n" +
                         "⌛\uFE0F60 сек " + userRecords[1] + " симв/сек");
             }
@@ -143,12 +143,12 @@ public class Bot extends TelegramLongPollingBot {
 
         switch (message){
             case "/info":
-                String botMsg = "\uD83D\uDCDA *Информация:*\n" +
-                        "*/top* - Топ игроков \uD83C\uDFC6 \n" +
+                sendFormattedMessage(chatId,"\uD83D\uDCDA *Информация:*\n");
+                String botMsg = "*/top* - Топ игроков \uD83C\uDFC6 \n" +
                         "*/stat username* - Статистика по нику \uD83D\uDD0D \n" +
                         "*/newText* - Добавить новый текст \uD83D\uDCC4"+
                         "\n" +
-                        "/ask - Что то не работает?/Есть предложение? \uD83D\uDCBC";
+                        "*/ask* - Что то не работает?/Есть предложение? \uD83D\uDCBC";
                 sendFormattedMessage(chatId,botMsg);
                 return;
 
@@ -168,8 +168,8 @@ public class Bot extends TelegramLongPollingBot {
                 return;
 
             case "/top":            //question Code 3
-                sendFormattedMessage(chatId,"*Выберите:*\n" +
-                        "1. 15-ти секундный режим\n" +
+                sendFormattedMessage(chatId,"\uD83D\uDDC2\uFE0F* Выберите:*\n");
+                sendMessage(chatId,"1. 15-ти секундный режим\n" +
                         "2. 30-ти секундный режим\n" +
                         "3. 60-ти секундный режим");
                 users.get(userName).setQuest(3);
