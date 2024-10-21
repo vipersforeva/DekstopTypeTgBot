@@ -94,9 +94,7 @@ public class Bot extends TelegramLongPollingBot {
                             return;
                     }
 
-
                     sendFormattedMessage(chatId, "\uD83C\uDFC6* Топы*");
-
 
                     LinkedHashMap<String, Integer> sortedTops = getStringIntegerLinkedHashMap(tops);
 
@@ -120,7 +118,9 @@ public class Bot extends TelegramLongPollingBot {
                     return;
                 }
                 catch (NumberFormatException e) {
+                    System.out.println(e.getMessage());
                     sendMessage(chatId,"❌Такого номера нет!");
+                    users.get(userName).setQuest(0);
                     return;
                 }
         }
